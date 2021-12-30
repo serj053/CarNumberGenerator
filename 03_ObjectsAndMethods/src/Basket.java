@@ -4,6 +4,7 @@ public class Basket {
     private String items = " ";
     private int totalPrice = 0;
     private int limit;
+    /*Добавлено поле*/
     private double totalWeight = 0;
 
     public Basket() {
