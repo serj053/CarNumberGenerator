@@ -10,11 +10,7 @@ public class Main {
         basketWithLimit.print("Я купил вот что ");
 
         Basket basketWithWeight = new Basket();
-        basketWithWeight.add("Potato", 30, 200.1);
-        basketWithWeight.print("Докупил ");
-
-        //basketWithWeight.add("Potato", 60, 500.5);
-        //basketWithWeight.print("Докупил ");
+        basketWithWeight.add("Potato", 30, 0, 200.4);
 
     }
 }

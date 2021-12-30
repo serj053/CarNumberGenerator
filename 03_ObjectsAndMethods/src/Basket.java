@@ -1,7 +1,7 @@
 public class Basket {
 
     private static int count = 0;
-    private String items = "";
+    private String items = " ";
     private int totalPrice = 0;
     private int limit;
     private double totalWeight = 0;
@@ -32,9 +32,9 @@ public class Basket {
     }
 
     /*Добавлен метод*/
-    public void add(String name, int price, double weight) {
-        totalWeight = weight;
-        add(name, price);
+    public void add(String name, int price, int count, double weight) {
+        add(name, price, count);
+        totalWeight += weight;
     }
 
     public void add(String name, int price) {
@@ -57,7 +57,7 @@ public class Basket {
         }
 
         items = items + "\n" + name + " - " +
-                count + " шт. - " + price + "р. " +((totalWeight != 0)?totalWeight + " кг":"") ;
+                count + " шт. - " + price + "р. ";
         totalPrice = totalPrice + count * price;
     }
 
