@@ -46,3 +46,4 @@ public class Elevator {
     }
 
 }
+/* Alt + Insert  вызов меню генерации методов*/
