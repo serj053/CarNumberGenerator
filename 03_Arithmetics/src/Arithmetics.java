@@ -23,3 +23,4 @@ public class Arithmetics {
         return (number1 > number2)? number2 : number1;
     }
 }
+/**/
