@@ -30,7 +30,7 @@ public class Printer {
         queue = "";
     }
 
-    /*Подготовка документа к печати*/
+    /*вывод на печать*/
     public void print() {
         if (!isPrinting) {
             System.out.println(queue);
