@@ -5,14 +5,15 @@ public class Main {
         Storage storage = new Storage("SSD", 500, 0.1);
         Screen screen = new Screen(19, "IPS", 3);
         Keyboard keyboard = new Keyboard("HUNTER", false, 0.8);
-        Computer computer = new Computer("Panasonic", "Dell");
+        Computer computer = new Computer("Panasonic", "Dell", processor, ram,
+                storage, screen, keyboard);
 
         /*Определение веса кмпьютера*/
         System.out.println("Вес компьютера - " +
-        computer.computerWeight(processor, ram, storage, screen, keyboard));
+        computer.computerWeight());
 
         /*Описание компьютера*/
-        computer.toString(processor, ram, storage, screen, keyboard);
+        computer.toStringComputer();
     }
 }
 
