@@ -9,10 +9,10 @@ import java.util.Objects;
 public class Employee {
 
   private String name;
-  private Integer salary;
+  private int salary;
   private Date workStart;
 
-  public Employee(String name, Integer salary, Date workStart) {
+  public Employee(String name, int salary, Date workStart) {
     this.name = name;
     this.salary = salary;
     this.workStart = workStart;
@@ -49,7 +49,7 @@ public class Employee {
     this.name = name;
   }
 
-  public Integer getSalary() {
+  public int getSalary() {
     return salary;
   }
 
