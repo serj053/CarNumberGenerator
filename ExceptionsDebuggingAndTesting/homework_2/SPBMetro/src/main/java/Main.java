@@ -1,37 +1,56 @@
+import com.sun.source.doctree.SeeTree;
 import core.Line;
 import core.Station;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.w3c.dom.ls.LSOutput;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    private static final String DATA_FILE = "src/main/resources/map.json";
+    private static final String DATA_FILE = "ExceptionsDebuggingAndTesting/homework_2/SPBMetro/src/main/resources/map.json";
     private static Scanner scanner;
 
     private static StationIndex stationIndex;
 
     public static void main(String[] args) {
+    /*получаем объект RouteCalculator, который содержит методы подсчет и создаем объект
+    StationIndex() и заполняет его данными из jason файла линии метро, станции и пересадки
+    */
+
+
         RouteCalculator calculator = getRouteCalculator();
 
-        System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
-        scanner = new Scanner(System.in);
-        for (; ; ) {
-            Station from = takeStation("Введите станцию отправления:");
-            Station to = takeStation("Введите станцию назначения:");
+//        Set<Station> stations = stationIndex.getConnectedStations(stationIndex.getStation("Спасская"));
+//        for (Station station : stations) {
+//            System.out.println(station);
+//        }
 
-            List<Station> route = calculator.getShortestRoute(from, to);
-            System.out.println("Маршрут:");
-            printRoute(route);
 
-            System.out.println("Длительность: " +
-                    RouteCalculator.calculateDuration(route) + " минут");
-        }
+        List<Station> list = new ArrayList<>();
+        list = calculator.getShortestRoute(
+                stationIndex.getStation(
+                        "Спортивная"), stationIndex.getStation("Пролетарская"));
+        System.out.println(list);
+//
+//        System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
+//        scanner = new Scanner(System.in);
+//        for (; ; ) {
+//        //вводим имя станции, проверяем есть такая в списке станций и возвращаем имя проверенной
+//        //станции перемененную или сообщение о том что станция не найдена
+//            Station from = takeStation("Введите станцию отправления:");
+//            Station to = takeStation("Введите станцию назначения:");
+//        //формируем маршрут до станции назначения
+//            List<Station> route = calculator.getShortestRoute(from, to);
+//            System.out.println("Маршрут:");
+//            printRoute(route);
+//
+//            System.out.println("Длительность: " +
+//                    RouteCalculator.calculateDuration(route) + " минут");
+//        }
     }
 
     private static RouteCalculator getRouteCalculator() {
@@ -55,13 +74,15 @@ public class Main {
         }
     }
 
+    //проверка есть ли введенная станция в списке станций
     private static Station takeStation(String message) {
         for (; ; ) {
             System.out.println(message);
-            String line = scanner.nextLine().trim();
+            String line = scanner.nextLine().trim();//получаем строку с консоли
+            //проверяем есть ли переданная станция в списке станций
             Station station = stationIndex.getStation(line);
             if (station != null) {
-                return station;
+                return station;//если есть, то вернуть её
             }
             System.out.println("Станция не найдена :(");
         }
@@ -70,15 +91,16 @@ public class Main {
     private static void createStationIndex() {
         stationIndex = new StationIndex();
         try {
-            JSONParser parser = new JSONParser();
-            JSONObject jsonData = (JSONObject) parser.parse(getJsonFile());
+            JSONParser parser = new JSONParser();//объект для работы с файлом json
+            JSONObject jsonData = (JSONObject) parser.parse(getJsonFile());//получили строку из файла
 
-            JSONArray linesArray = (JSONArray) jsonData.get("lines");
-            parseLines(linesArray);
-
+            JSONArray linesArray = (JSONArray) jsonData.get("lines");//создали массив строк
+            //передаем данные в объект stationIndex
+            parseLines(linesArray);//
+            //передаем данные в объект stationIndex
             JSONObject stationsObject = (JSONObject) jsonData.get("stations");
             parseStations(stationsObject);
-
+            //передаем данные в объект stationIndex
             JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
             parseConnections(connectionsArray);
         } catch (Exception ex) {
@@ -134,9 +156,11 @@ public class Main {
         });
     }
 
+    //получаем из файла строку
     private static String getJsonFile() {
         StringBuilder builder = new StringBuilder();
         try {
+            //readAllLines возвращает строки из файла как список
             List<String> lines = Files.readAllLines(Paths.get(DATA_FILE));
             lines.forEach(line -> builder.append(line));
         } catch (Exception ex) {

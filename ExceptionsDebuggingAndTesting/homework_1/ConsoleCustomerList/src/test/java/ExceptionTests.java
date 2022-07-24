@@ -54,13 +54,17 @@ public class ExceptionTests {
 
     @Test
     @DisplayName("Тест добавления корректных данных Customer")
-    void insertCorrectData() {
+    void insertCorrectData() throws Exception {
         final String name = "Василий Петров";
         final String email = "hello@skillbox.ru";
         final String phone = "+79991234567";
         final String input = String.join(" ", name, email, phone);
 
-        storage.addCustomer(input);
+        try {
+            storage.addCustomer(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(1, storage.getCount());
 
         Customer customer = storage.getCustomer(name);
