@@ -18,8 +18,8 @@ public class RouteCalculatorTest extends TestCase {
     public StationIndex getStationIndex() {
         return stationIndex;
     }
-
-    @Override//метод в котором инициализируются данные для проверки
+    //метод в котором инициализируются данные для проверки
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         Line line1 = new Line(1, "Первая");

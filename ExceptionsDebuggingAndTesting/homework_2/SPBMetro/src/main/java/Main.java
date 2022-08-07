@@ -1,56 +1,52 @@
-import com.sun.source.doctree.SeeTree;
 import core.Line;
 import core.Station;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.w3c.dom.ls.LSOutput;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Main {
+    private static Logger logger;
     private static final String DATA_FILE = "ExceptionsDebuggingAndTesting/homework_2/SPBMetro/src/main/resources/map.json";
     private static Scanner scanner;
 
     private static StationIndex stationIndex;
 
     public static void main(String[] args) {
+
+        logger = LogManager.getRootLogger();
+
     /*получаем объект RouteCalculator, который содержит методы подсчет и создаем объект
     StationIndex() и заполняет его данными из jason файла линии метро, станции и пересадки
     */
-
-
         RouteCalculator calculator = getRouteCalculator();
 
-//        Set<Station> stations = stationIndex.getConnectedStations(stationIndex.getStation("Спасская"));
-//        for (Station station : stations) {
-//            System.out.println(station);
-//        }
 
+        System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
+        scanner = new Scanner(System.in);
+        for (; ; ) {
+            //вводим имя станции, проверяем есть такая в списке станций и возвращаем имя проверенной
+            //станции перемененную или сообщение о том что станция не найдена
+            try {
+                Station from = takeStation("Введите станцию отправления:");
+                Station to = takeStation("Введите станцию назначения:");
+                //формируем маршрут до станции назначения
+                List<Station> route = calculator.getShortestRoute(from, to);
+                System.out.println("Маршрут:");
+                printRoute(route);
 
-        List<Station> list = new ArrayList<>();
-        list = calculator.getShortestRoute(
-                stationIndex.getStation(
-                        "Спортивная"), stationIndex.getStation("Пролетарская"));
-        System.out.println(list);
-//
-//        System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
-//        scanner = new Scanner(System.in);
-//        for (; ; ) {
-//        //вводим имя станции, проверяем есть такая в списке станций и возвращаем имя проверенной
-//        //станции перемененную или сообщение о том что станция не найдена
-//            Station from = takeStation("Введите станцию отправления:");
-//            Station to = takeStation("Введите станцию назначения:");
-//        //формируем маршрут до станции назначения
-//            List<Station> route = calculator.getShortestRoute(from, to);
-//            System.out.println("Маршрут:");
-//            printRoute(route);
-//
-//            System.out.println("Длительность: " +
-//                    RouteCalculator.calculateDuration(route) + " минут");
-//        }
+                System.out.println("Длительность: " +
+                        RouteCalculator.calculateDuration(route) + " минут");
+            } catch (Exception e) {
+                logger.error("Ошибка выполнения программы");
+            }
+        }
     }
 
     private static RouteCalculator getRouteCalculator() {
@@ -75,16 +71,23 @@ public class Main {
     }
 
     //проверка есть ли введенная станция в списке станций
-    private static Station takeStation(String message) {
+    private static Station takeStation(String message) throws Exception {
         for (; ; ) {
             System.out.println(message);
             String line = scanner.nextLine().trim();//получаем строку с консоли
+            if (line.equals("try")) {
+                throw new Exception("Вызываем исключения");
+            }
             //проверяем есть ли переданная станция в списке станций
             Station station = stationIndex.getStation(line);
             if (station != null) {
+                //фиксируем запрашиваемые станции
+                logger.info(message + station.getName());
                 return station;//если есть, то вернуть её
             }
-            System.out.println("Станция не найдена :(");
+            System.out.println("Неверное имя станции.:))");
+            //фиксация ошибок при вызове
+            logger.warn("logger Неверное имя станции  " + line);
         }
     }
 
@@ -169,3 +172,29 @@ public class Main {
         return builder.toString();
     }
 }
+
+/*
+* <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+
+      </plugin>
+* */
