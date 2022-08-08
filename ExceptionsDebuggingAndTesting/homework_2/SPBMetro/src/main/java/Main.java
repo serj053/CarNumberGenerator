@@ -1,5 +1,7 @@
 import core.Line;
 import core.Station;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static Logger logger;
+    private static final Marker  INPUT_HISTORY_MARKER = MarkerManager.getMarker("INPUT_HISTORY");
+    private static final Marker  INVALID_STATIONS_MARKER = MarkerManager.getMarker("INVALID_STATIONS");
     private static final String DATA_FILE = "ExceptionsDebuggingAndTesting/homework_2/SPBMetro/src/main/resources/map.json";
     private static Scanner scanner;
 
@@ -82,12 +86,12 @@ public class Main {
             Station station = stationIndex.getStation(line);
             if (station != null) {
                 //фиксируем запрашиваемые станции
-                logger.info(message + station.getName());
+                logger.info(INPUT_HISTORY_MARKER,message + station.getName());
                 return station;//если есть, то вернуть её
             }
             System.out.println("Неверное имя станции.:))");
             //фиксация ошибок при вызове
-            logger.warn("logger Неверное имя станции  " + line);
+            logger.warn(INVALID_STATIONS_MARKER, "logger Неверное имя станции  " + line);
         }
     }
 
