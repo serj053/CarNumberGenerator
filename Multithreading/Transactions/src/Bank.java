@@ -3,10 +3,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Bank {
-
-
     private Map<String, Account> accounts = new HashMap<>();
-
     private final Random random = new Random();
 
     public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
@@ -24,13 +21,16 @@ public class Bank {
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
         Account from = accounts.get(fromAccountNum);
         Account to = accounts.get(toAccountNum);
-        to.setMoney(from.getMoney(amount));
-        boolean testFraud = false;
         if (amount > 50_000) {
-           testFraud = isFraud(from.getAccNumber(), to.getAccNumber(), amount);
-        }
-        if(testFraud){
-            System.out.println("Платеж проверку не прошел.");
+            if (isFraud(from.getAccNumber(), to.getAccNumber(), amount)) {
+                System.out.println("Платеж проверку не прошел. Отказано в переводе.");
+            } else {
+                to.setMoney(from.getMoney(amount));
+                System.out.println("Платеж прошел.");
+            }
+        } else {
+            to.setMoney(from.getMoney(amount));
+            System.out.println("Платеж прошел.");
         }
     }
 
@@ -38,18 +38,23 @@ public class Bank {
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
     public long getBalance(String accountNum) {
-        return 0;
+        return accounts.get(accountNum).getMoney();
     }
 
     public long getSumAllAccounts() {
-        return 0;
+        long totalSum = 0;
+        for (Map.Entry<String, Account> set : accounts.entrySet()) {
+            totalSum += set.getValue().getMoney();
+        }
+        return totalSum;
     }
 
     public void setAccount(String str, Account account) {
         this.accounts.put(str, account);
     }
 
-    public Map<String, Account> getAccount() {
+    public Map<String, Account> getAccounts() {
         return accounts;
     }
 }
+
