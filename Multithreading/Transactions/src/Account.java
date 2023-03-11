@@ -1,9 +1,9 @@
 public class Account {
-    private Bank bank;
+    private final Bank bank;
     private long money;
     private String accNumber;
 
-    public Account(Bank bank, String accNumber, long money) throws InterruptedException {
+    public Account(Bank bank, String accNumber, long money) {
         this.bank = bank;
         this.money = money;
         this.accNumber = accNumber;
@@ -43,11 +43,7 @@ public class Account {
         bank.transfer(this.accNumber, to, money);
     }
 
-    public void notifyAcc() throws InterruptedException {
-        getBalance();
-    }
-
-    public synchronized long getBalance() throws InterruptedException {
+        public synchronized long getBalance() throws InterruptedException {
         return bank.getBalance(this.accNumber);
     }
 
