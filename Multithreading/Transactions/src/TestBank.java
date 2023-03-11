@@ -1,5 +1,3 @@
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TestBank {
     public static void main(String[] args) throws InterruptedException {
@@ -34,7 +32,7 @@ public class TestBank {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();;
+        }).start();
 
 
         new Thread(()->{
@@ -55,7 +53,7 @@ public class TestBank {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();;
+        }).start();
 
 
     }
