@@ -45,21 +45,10 @@ public class Account {
 
     public void notifyAcc() throws InterruptedException {
         getBalance();
-      //  notify();
     }
 
     public synchronized long getBalance() throws InterruptedException {
- //       System.out.println("In balance " + bank.getBalance(this.accNumber) + "  " + Thread.currentThread().getName());
-//        notify();
-//        wait();
         return bank.getBalance(this.accNumber);
     }
-
-//
-//    public synchronized void getSumAllBalance() throws InterruptedException {
-//        System.out.println(bank.getSumAllAccounts());
-//        notify();
-//        wait();
-//    }
 
 }
