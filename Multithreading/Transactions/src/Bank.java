@@ -37,11 +37,12 @@ public class Bank {
     /**
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
-    public long getBalance(String accountNum) {
+    public synchronized long getBalance(String accountNum) throws InterruptedException {
+       // System.out.println("In balance Bank "+ Thread.currentThread().getName());
         return accounts.get(accountNum).getMoney();
     }
 
-    public long getSumAllAccounts() {
+    public synchronized long getSumAllAccounts() throws InterruptedException {
         long totalSum = 0;
         for (Map.Entry<String, Account> set : accounts.entrySet()) {
             totalSum += set.getValue().getMoney();
@@ -49,12 +50,19 @@ public class Bank {
         return totalSum;
     }
 
-    public void setAccount(String str, Account account) {
+    public synchronized void setAccount(String str, Account account) throws InterruptedException {
         this.accounts.put(str, account);
+//        notify();
+//        wait();
     }
 
     public Map<String, Account> getAccounts() {
         return accounts;
+    }
+
+    public synchronized void leaveAll(){
+        System.out.println("In leaveAll " + Thread.currentThread().getName());
+        notifyAll();
     }
 }
 

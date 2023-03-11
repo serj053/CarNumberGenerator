@@ -1,48 +1,13 @@
-public class Account implements Runnable {
+public class Account {
     private Bank bank;
     private long money;
     private String accNumber;
-    private boolean isResume = true;
-    private boolean isQuit;
-    private String command;
-    private Thread thread;
-    private String payee;
-    private long moneyToPayee;
 
-    public Account(Bank bank, String accNumber, long money) {
+    public Account(Bank bank, String accNumber, long money) throws InterruptedException {
         this.bank = bank;
         this.money = money;
         this.accNumber = accNumber;
-        thread = new Thread(this, accNumber);
-        thread.start();
-    }
-
-    public void run() {
-        System.out.println("Создан аккаунт " + Thread.currentThread().getName());
-        try {
-            synchronized (this) {
-                while (isResume) {
-                    if (command != null) {
-                        if (command.equals("transferPush")) {
-                            System.out.print(Thread.currentThread().getName() + " переводит "
-                                    + payee +  " сумму  " +  moneyToPayee+" ");
-                            bank.transfer(this.accNumber, payee, moneyToPayee);
-
-                        }
-                        if (command.equals("getBalance")) {
-                            System.out.println("Баланс " + this.accNumber +"  равен "
-                                    + bank.getBalance(this.accNumber));
-                        }
-                    }
-                    notify();
-                    wait();
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(Thread.currentThread().getName() +" покинул банк.");
-
+        System.out.println("создан аккаунт " + this.accNumber);
     }
 
     public long getMoney() {
@@ -75,22 +40,26 @@ public class Account implements Runnable {
     }
 
     public synchronized void transferPush(String to, long money) throws InterruptedException {
-        this.payee = to;
-        this.moneyToPayee = money;
-        this.command = "transferPush";
-        notify();
-        wait();
+        bank.transfer(this.accNumber, to, money);
     }
 
-    public synchronized void getBalance() throws InterruptedException {
-        this.command = "getBalance";
-        notify();
-        wait();
+    public void notifyAcc() throws InterruptedException {
+        getBalance();
+      //  notify();
     }
 
-    public synchronized void leaveBank() {
-        this.isResume = false;
-        notify();
+    public synchronized long getBalance() throws InterruptedException {
+ //       System.out.println("In balance " + bank.getBalance(this.accNumber) + "  " + Thread.currentThread().getName());
+//        notify();
+//        wait();
+        return bank.getBalance(this.accNumber);
     }
+
+//
+//    public synchronized void getSumAllBalance() throws InterruptedException {
+//        System.out.println(bank.getSumAllAccounts());
+//        notify();
+//        wait();
+//    }
 
 }
