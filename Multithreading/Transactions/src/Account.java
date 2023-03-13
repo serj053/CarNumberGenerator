@@ -7,7 +7,7 @@ public class Account {
         this.bank = bank;
         this.money = money;
         this.accNumber = accNumber;
-        System.out.println("создан аккаунт " + this.accNumber);
+  //            System.out.println("создан аккаунт " + this.accNumber);
     }
 
     public long getMoney() {

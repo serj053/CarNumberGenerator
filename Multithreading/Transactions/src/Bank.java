@@ -3,7 +3,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Bank {
-    private Map<String, Account> accounts = new HashMap<>();
+    private final Map<String, Account> accounts = new HashMap<>();
     private final Random random = new Random();
 
     public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
@@ -23,14 +23,14 @@ public class Bank {
         Account to = accounts.get(toAccountNum);
         if (amount > 50_000) {
             if (isFraud(from.getAccNumber(), to.getAccNumber(), amount)) {
-                System.out.println("Платеж проверку не прошел. Отказано в переводе.");
+                System.out.println("Платеж от " + fromAccountNum + " к " + toAccountNum + " проверку не прошел. Отказано в переводе.");
             } else {
                 to.setMoney(from.getMoney(amount));
-                System.out.println("Платеж прошел.");
+                System.out.println("Платеж от " + fromAccountNum + " к " + toAccountNum + " прошел.");
             }
         } else {
             to.setMoney(from.getMoney(amount));
-            System.out.println("Платеж прошел.");
+            System.out.println("Платеж от " +fromAccountNum + " к " + toAccountNum+ " прошел.");
         }
     }
 
@@ -38,7 +38,7 @@ public class Bank {
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
     public synchronized long getBalance(String accountNum) throws InterruptedException {
-       // System.out.println("In balance Bank "+ Thread.currentThread().getName());
+        // System.out.println("In balance Bank "+ Thread.currentThread().getName());
         return accounts.get(accountNum).getMoney();
     }
 
@@ -60,7 +60,7 @@ public class Bank {
         return accounts;
     }
 
-    public synchronized void leaveAll(){
+    public synchronized void leaveAll() {
         System.out.println("In leaveAll " + Thread.currentThread().getName());
         notifyAll();
     }
