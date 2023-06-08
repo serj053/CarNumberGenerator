@@ -6,7 +6,7 @@ public class ConcatinationLoader {
         long start = System.currentTimeMillis();
         FileOutputStream writer = new FileOutputStream("data/numbers.txt");
         char[] letters = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
-        int regionCode = 199;
+        int regionCode ;
         for (regionCode = 0; regionCode < 200; regionCode++) {
             for (int number = 1; number < 1000; number++) {
                 for (char firstLetter : letters) {

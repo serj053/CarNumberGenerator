@@ -27,13 +27,13 @@ public class RandomGeneratedNumbers {
             threads.add(
                     new Thread(() -> {
                         StringBuilder builder = new StringBuilder();
-                        PrintWriter writer = null;
+                        PrintWriter writer;
                         try {
                             writer = new PrintWriter("data/file" + j + ".txt");
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
-                        for (; list.size() < 300_000;) {
+                        while (list.size() < 300_000) {
                             builder.append(letters[(int) (Math.random() * 12)]);
                             builder.append(padNumber((int) (Math.random() * 1000), 3));
                             builder.append(letters[(int) (Math.random() * 12)]);
