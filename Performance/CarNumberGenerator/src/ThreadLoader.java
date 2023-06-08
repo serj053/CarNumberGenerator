@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ThreadLoader {
     /*
@@ -45,7 +44,7 @@ public class ThreadLoader {
         //long start = System.currentTimeMillis();
         /*PrintWriter класс который подбирает оптимальнйы размер буфера*/
         PrintWriter writer = new PrintWriter("data/file_" + nameSuffix + ".txt");
-        char letters[] = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
+        char[] letters = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
         // int regionCode = 199;
         for (int regionCode = 1; regionCode <= regionCounts; regionCode++) {
             StringBuilder builder = new StringBuilder();
@@ -72,15 +71,15 @@ public class ThreadLoader {
     }
 
     private static String padNumber(int number, int numberLength) {
-        String numberStr = Integer.toString(number);
+        StringBuilder numberStr = new StringBuilder(Integer.toString(number));
         int padSize = numberLength - numberStr.length();
         //StringBuilder builder = new StringBuilder();
        // builder.append(numberStr);
         for (int i = 0; i < padSize; i++) {
             //builder.insert(0,'0');
-            numberStr = '0' + numberStr;
+            numberStr.insert(0, '0');
         }
-        return numberStr;
+        return numberStr.toString();
         //return builder.toString();
     }
 }

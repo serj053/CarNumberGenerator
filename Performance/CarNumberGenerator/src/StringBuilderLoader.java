@@ -7,7 +7,7 @@ public class StringBuilderLoader {
 
         FileOutputStream writer = new FileOutputStream("data/numbers.txt");
         StringBuilder builder = new StringBuilder();
-        char letters[] = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
+        char[] letters = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
         // int regionCode = 199;
         for (int regionCode = 1 ;regionCode < 200; regionCode++) {
             for (int number = 1; number < 1000; number++) {
@@ -39,13 +39,13 @@ public class StringBuilderLoader {
     }
 
     private static String padNumber(int number, int numberLength) {
-        String numberStr = Integer.toString(number);
+        StringBuilder numberStr = new StringBuilder(Integer.toString(number));
         int padSize = numberLength - numberStr.length();
 
         for (int i = 0; i < padSize; i++) {
-            numberStr = '0' + numberStr;
+            numberStr.insert(0, '0');
         }
 
-        return numberStr;
+        return numberStr.toString();
     }
 }

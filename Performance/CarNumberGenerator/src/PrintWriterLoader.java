@@ -1,4 +1,3 @@
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
 public class PrintWriterLoader {
@@ -12,7 +11,7 @@ public class PrintWriterLoader {
         /*PrintWriter класс который подбирает оптимальнйы размер буфера*/
         PrintWriter writer = new PrintWriter("data/numbers.txt");
 
-        char letters[] = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
+        char[] letters = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
         // int regionCode = 199;
         for (int regionCode = 1; regionCode < 200; regionCode++) {
             StringBuilder builder = new StringBuilder();
@@ -44,13 +43,13 @@ public class PrintWriterLoader {
     }
 
     private static String padNumber(int number, int numberLength) {
-        String numberStr = Integer.toString(number);
+        StringBuilder numberStr = new StringBuilder(Integer.toString(number));
         int padSize = numberLength - numberStr.length();
 
         for (int i = 0; i < padSize; i++) {
-            numberStr = '0' + numberStr;
+            numberStr.insert(0, '0');
         }
 
-        return numberStr;
+        return numberStr.toString();
     }
 }

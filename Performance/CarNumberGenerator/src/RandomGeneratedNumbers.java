@@ -17,16 +17,16 @@ public class RandomGeneratedNumbers {
      200 -  81311            200
      500 -  105402           200
     * */
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+    public static void main(String[] args) throws  InterruptedException {
         long start = System.currentTimeMillis();
-        char letters[] = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
+        char[] letters = {'У', 'К', 'Е', 'Н', 'Х', 'В', 'А', 'Р', 'О', 'С', 'М', 'Т'};
         List<Thread> threads = new ArrayList<>();
         Set<String> list = new CopyOnWriteArraySet<>();
         for (int i = 0; i < 500; i++) {
             int j = i;
             threads.add(
                     new Thread(() -> {
-                        StringBuffer builder = new StringBuffer();
+                        StringBuilder builder = new StringBuilder();
                         PrintWriter writer = null;
                         try {
                             writer = new PrintWriter("data/file" + j + ".txt");
